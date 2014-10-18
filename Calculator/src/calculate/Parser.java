@@ -7,6 +7,12 @@ import expressions.Expressions;
 import expressions.Function;
 import expressions.Operator;
 
+/**
+ * Is used to parse a String into Tokens,
+ * convert them into postfix notation and
+ * determine their value.
+ * @author Daedo
+ */
 public class Parser {
 	/**
 	 * Takes a text String and parses it into a Vector of {@link Token}
@@ -258,8 +264,20 @@ public class Parser {
 		return outVector;
 	}	
 
-	private static Vector<Token> prewortDetermineUnaryOperators(Vector<Token> infixTokens) {
-		Vector<Token> outVector = infixTokens;
+	
+	/**
+	 * Iterates over the Tokens looking for unary Operators (+,- Signs).
+	 * The signs for a unary operator:
+	 * 
+	 * 1. It is the first {@link Token} of the expression or follows a argument separator (= first token of a sub expression) 
+	 * 2. It follows another Operator
+	 * 3. It follows an open bracket
+	 * 
+	 * @param postfixTokens A Vector of Tokens in postfix notation.
+	 * @return Returns a Vector of Tokens in postfix notation.
+	 */
+	private static Vector<Token> prewortDetermineUnaryOperators(Vector<Token> postfixTokens) {
+		Vector<Token> outVector = postfixTokens;
 		Expressions expr = Calculator.expressions;
 		
 		int tokenCount = outVector.size();
@@ -290,14 +308,21 @@ public class Parser {
 		return outVector;
 	}
 	
-	private static Vector<Token> preworkConversion(Vector<Token> infixTokens) {
+	/**
+	 * Iterates over the Tokens looking for implied multiplications
+	 * 2x -> 2*x; (a-b)(a+b) -> (a-b)*(a+b)
+	 * 
+	 * @param postfixTokens A Vector of Tokens in postfix notation.
+	 * @return Returns a Vector of Tokens in postfix notation.
+	 */
+	private static Vector<Token> preworkConversion(Vector<Token> postfixTokens) {
 		
 		Vector<Token> outVector = new Vector<>();
 		
-		int tokenCount = infixTokens.size();
+		int tokenCount = postfixTokens.size();
 		for(int i = 0;i < tokenCount;i++) {
 			
-			Token firstToken = infixTokens.get(i);
+			Token firstToken = postfixTokens.get(i);
 			outVector.add(firstToken);
 			
 			boolean isLastElement = i == (tokenCount-1);
@@ -305,7 +330,7 @@ public class Parser {
 			if(!isLastElement) {
 				int firstType = firstToken.getTokenType();
 				
-				Token secondToken = infixTokens.get(i+1);
+				Token secondToken = postfixTokens.get(i+1);
 				int secondType = secondToken.getTokenType();
 				
 				boolean firstIsNumber = firstType==Token.TOKEN_NUMBER || firstType==Token.TOKEN_NUMBER_LITERAL || firstType==Token.TOKEN_VARIABLE;
@@ -323,6 +348,14 @@ public class Parser {
 		return outVector;
 	}
 
+	/**
+	 * Calculates a expression.
+	 * 
+	 * @param postfixTokens The expression as a Vector of {@link Token}s in postfix Notation.
+	 * 
+	 * @return Returns the value of the expression as a double.
+	 * @throws Exception
+	 */
 	public static double calculatePostfixTokens(Vector<Token> postfixTokens) throws Exception{
 		Stack<Double> workStack = new Stack<>();
 		Expressions expr = Calculator.expressions;
@@ -404,8 +437,6 @@ public class Parser {
 			default:
 				throw new Exception("Parsing Error. Calculator can't handle Token '"+currentText+"'. Please convert to Postfix tokens.");
 			}
-			
-			//System.out.println(workStack.peek().doubleValue());
 		}
 		
 		double result = workStack.peek().doubleValue();

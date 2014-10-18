@@ -2,10 +2,14 @@ package calculate;
 
 import expressions.Expressions;
 
+/**
+ * Stores information about an expression part.Used by the {@link Parser} class.
+ * 
+ * @author Daedo
+ *
+ */
 public class Token {
-	
-
-
+	//Type Constants
 	public static final int TOKEN_NUMBER 			= 1;
 	public static final int TOKEN_NUMBER_LITERAL	= 2;
 	public static final int TOKEN_FUNCTION			= 3;
@@ -28,7 +32,12 @@ public class Token {
 		return this.tokenText;
 	}
 	
-	private int getStringType(String text) {
+	/**
+	 * Calculates the Type of a Expression and returns the type constant.
+	 * @param text The expression as a String
+	 * @return Returns the type constant as an integer.
+	 */
+	private static int getStringType(String text) {
 		Expressions expressions = Calculator.expressions;
 		
 		boolean isFunction = expressions.matchesFunction(text); 
@@ -74,6 +83,9 @@ public class Token {
 		return this.tokenType;
 	}
 
+	/**
+	 * Prints out the type and the literal of a token
+	 */
 	public void print() {
 		System.out.println(this.tokenText+"\t-\t"+this.tokenType);
 	}

@@ -4,6 +4,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
+/**
+ * Stores all expression parts, that the calculator knows.
+ * @author Dominik
+ *
+ */
 public class Expressions {
 	private Vector<String> expressionList;
 	private Vector<Number> numberList;
@@ -17,6 +22,7 @@ public class Expressions {
 		this.expressionList.add("(");
 		this.expressionList.add(")");
 
+		//Unary Operators
 		this.unaryList = new Vector<>();
 		this.unaryList.add(new Operator("+", 0, false, 1){
 			@Override
@@ -33,13 +39,14 @@ public class Expressions {
 			}
 		});
 
-
+		//Number Constants
 		this.numberList = new Vector<>();
 		this.numberList.add(new Number("pi", Math.PI));
 		this.numberList.add(new Number("tau", Math.PI*2.0));
 		this.numberList.add(new Number("e", Math.E));
 		this.numberList.add(new Number("phi", (1.0+Math.sqrt(5.0))/2.0));
 
+		//Binary Operators
 		this.operatorList = new Vector<>();
 		this.operatorList.add(new Operator("+", 0, false, 2){
 			@Override
@@ -86,6 +93,7 @@ public class Expressions {
 			}
 		});
 
+		//Functions
 		this.functionList = new Vector<>();
 
 		this.functionList.add(new Function("sin", 1){
@@ -234,6 +242,11 @@ public class Expressions {
 		return matchedExpression;
 	}
 
+	/**
+	 * Checks if a String matches a known expression.
+	 * @param text The expression literal as a String
+	 * @return Returns a boolean depending on weather it matches or not
+	 */
 	public boolean matchesExpression(String text) {
 
 		int expressionCount = getExpressionCount();
@@ -250,6 +263,11 @@ public class Expressions {
 		return false;
 	}
 
+	/**
+	 * Checks if a String matches a known number literal.
+	 * @param text The expression literal as a String
+	 * @return Returns a boolean depending on weather it matches or not
+	 */
 	public boolean matchesNumber(String text) {
 		int numberCount = this.numberList.size();
 		for(int i = 0;i<numberCount;i++) {
@@ -281,6 +299,11 @@ public class Expressions {
 		return null;
 	}
 
+	/**
+	 * Checks if a String matches a known binary operator literal.
+	 * @param text The expression literal as a String
+	 * @return Returns a boolean depending on weather it matches or not
+	 */
 	public boolean matchesOperator(String text) {
 		int operatorCount = this.operatorList.size();
 		for(int i = 0;i<operatorCount;i++) {
@@ -312,6 +335,11 @@ public class Expressions {
 		return null;
 	}
 
+	/**
+	 * Checks if a String matches a known function literal.
+	 * @param text The expression literal as a String
+	 * @return Returns a boolean depending on weather it matches or not
+	 */
 	public boolean matchesFunction(String text) {
 
 		int functionCount = this.functionList.size();
@@ -344,6 +372,11 @@ public class Expressions {
 		return null;
 	}
 
+	/**
+	 * Checks if a String matches a known unary operator literal.
+	 * @param text The expression literal as a String
+	 * @return Returns a boolean depending on weather it matches or not
+	 */
 	public boolean matchesUnaryOperator(String text) {
 		int unaryCount = this.unaryList.size();
 		for(int i = 0;i<unaryCount;i++) {
