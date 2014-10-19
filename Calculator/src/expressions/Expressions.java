@@ -106,7 +106,7 @@ public class Expressions {
 		this.functionList.add(new Function("cos", 1){
 			@Override
 			protected double calculateValue(Vector<Double> parameterList) throws Exception {
-				double parameter1 = parameterList.get(0);
+				double parameter1 = parameterList.get(0).doubleValue();
 				return Math.cos(parameter1);
 			}
 		});
@@ -114,15 +114,167 @@ public class Expressions {
 		this.functionList.add(new Function("tan", 1){
 			@Override
 			protected double calculateValue(Vector<Double> parameterList) throws Exception {
-				double parameter1 = parameterList.get(0);
+				double parameter1 = parameterList.get(0).doubleValue();
 				return Math.tan(parameter1);
 			}
 		});
+		
+		this.functionList.add(new Function("cot", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.cot(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("sec", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.sec(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("csc", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.csc(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("versin", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.versin(parameter1);
+			}
+		});
 
+		this.functionList.add(new Function("coversin", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.coversin(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("sem", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.sem(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("exsec", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.exsec(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("excsc", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.excsc(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("asin", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return Math.asin(parameter1);
+			}
+		});
+
+		this.functionList.add(new Function("acos", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return Math.acos(parameter1);
+			}
+		});
+
+		this.functionList.add(new Function("atan", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return Math.atan(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("acot", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.acot(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("asec", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.asec(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("acsc", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.acsc(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("aversin", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.aversin(parameter1);
+			}
+		});
+
+		this.functionList.add(new Function("acoversin", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.acoversin(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("asem", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.asem(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("aexsec", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.aexsec(parameter1);
+			}
+		});
+		
+		this.functionList.add(new Function("aexcsc", 1){
+			@Override
+			protected double calculateValue(Vector<Double> parameterList) throws Exception {
+				double parameter1 = parameterList.get(0).doubleValue();
+				return utils.MathFunctions.aexcsc(parameter1);
+			}
+		});
+		
 		this.functionList.add(new Function("log10", 1){
 			@Override
 			protected double calculateValue(Vector<Double> parameterList) throws Exception {
-				double parameter1 = parameterList.get(0);
+				double parameter1 = parameterList.get(0).doubleValue();;
 				return Math.log10(parameter1);
 			}
 		});
@@ -130,7 +282,7 @@ public class Expressions {
 		this.functionList.add(new Function("ln", 1){
 			@Override
 			protected double calculateValue(Vector<Double> parameterList) throws Exception {
-				double parameter1 = parameterList.get(0);
+				double parameter1 = parameterList.get(0).doubleValue();
 				return Math.log(parameter1);
 			}
 		});
@@ -138,7 +290,7 @@ public class Expressions {
 		this.functionList.add(new Function("ceil", 1){
 			@Override
 			protected double calculateValue(Vector<Double> parameterList) throws Exception {
-				double parameter1 = parameterList.get(0);
+				double parameter1 = parameterList.get(0).doubleValue();
 				return Math.ceil(parameter1);
 			}
 		});
@@ -146,7 +298,7 @@ public class Expressions {
 		this.functionList.add(new Function("floor", 1){
 			@Override
 			protected double calculateValue(Vector<Double> parameterList) throws Exception {
-				double parameter1 = parameterList.get(0);
+				double parameter1 = parameterList.get(0).doubleValue();
 				return Math.floor(parameter1);
 			}
 		});
@@ -154,7 +306,7 @@ public class Expressions {
 		this.functionList.add(new Function("round", 1){
 			@Override
 			protected double calculateValue(Vector<Double> parameterList) throws Exception {
-				double parameter1 = parameterList.get(0);
+				double parameter1 = parameterList.get(0).doubleValue();
 				return Math.round(parameter1);
 			}
 		});
