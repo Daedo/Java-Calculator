@@ -264,7 +264,6 @@ public class Parser {
 		return outVector;
 	}	
 
-	
 	/**
 	 * Iterates over the Tokens looking for unary Operators (+,- Signs).
 	 * The signs for a unary operator:

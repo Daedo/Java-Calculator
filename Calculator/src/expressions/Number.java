@@ -1,5 +1,10 @@
 package expressions;
 
+/**
+ * Stores a number constant with its literal and value.
+ * 
+ * @author Daedo
+ */
 public class Number {
 	private double value;
 	private String literal;

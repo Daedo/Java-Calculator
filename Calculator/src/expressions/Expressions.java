@@ -6,8 +6,7 @@ import java.util.Vector;
 
 /**
  * Stores all expression parts, that the calculator knows.
- * @author Dominik
- *
+ * @author Daedo
  */
 public class Expressions {
 	private Vector<String> expressionList;
@@ -283,6 +282,13 @@ public class Expressions {
 		return false;
 	}
 
+	/**
+	 * Returns the {@link Number} instance with the provided Literal.
+	 * If no such such number exists Null is returned.
+	 * 
+	 * @param literal The Literal as a String
+	 * @return Returns the Number instance with the provided Literal or Null
+	 */
 	public Number getNumber (String literal) {
 		int numberCount = this.numberList.size();
 		for(int i = 0;i<numberCount;i++) {
@@ -319,6 +325,13 @@ public class Expressions {
 		return false;
 	}
 
+	/**
+	 * Returns the {@link Operator} instance with the provided Literal.
+	 * If no such such operator exists Null is returned.
+	 * 
+	 * @param literal The Literal as a String
+	 * @return Returns the Operator instance with the provided Literal or Null
+	 */
 	public Operator getOperator(String literal) {
 		int operatorCount = this.operatorList.size();
 		for(int i = 0;i<operatorCount;i++) {
@@ -356,6 +369,13 @@ public class Expressions {
 		return false;
 	}
 
+	/**
+	 * Returns the {@link Function} instance with the provided Literal.
+	 * If no such such function exists Null is returned.
+	 * 
+	 * @param literal The Literal as a String
+	 * @return Returns the Function instance with the provided Literal or Null
+	 */
 	public Function getFunction (String literal) {
 		int functionCount = this.functionList.size();
 		for(int i = 0;i<functionCount;i++) {
@@ -392,6 +412,13 @@ public class Expressions {
 		return false;
 	}
 
+	/**
+	 * Returns the unary {@link Operator} instance with the provided Literal.
+	 * If no such such operator exists Null is returned.
+	 * 
+	 * @param literal The Literal as a String
+	 * @return Returns the unary Operator instance with the provided Literal or Null
+	 */
 	public Operator getUnaryOperator(String literal) {
 		int operatorCount = this.unaryList.size();
 		for(int i = 0;i<operatorCount;i++) {

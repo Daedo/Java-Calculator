@@ -6,7 +6,6 @@ import expressions.Expressions;
  * Stores information about an expression part.Used by the {@link Parser} class.
  * 
  * @author Daedo
- *
  */
 public class Token {
 	//Type Constants
