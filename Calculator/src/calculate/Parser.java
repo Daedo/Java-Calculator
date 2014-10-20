@@ -39,7 +39,7 @@ public class Parser {
 
 			String matchedExpression = expressions.getMatchingStartExpression(workingText);
 			hasFoundExpression = matchedExpression!=null;
-			
+
 			if(hasFoundExpression) {
 				if (!isEmptyToken) {
 					Token token = new Token(currentToken);
@@ -123,75 +123,75 @@ public class Parser {
 		inVector = preworkConversion(inVector);
 		Vector<Token> outVector = new Vector<>();
 		Stack<Token> workStack = new Stack<>();
-		
+
 		Expressions expressions = Calculator.expressions;
-		
+
 		boolean inVectorIsEmpty = inVector.isEmpty();
-		
+
 		while(!inVectorIsEmpty) {
 			Token currentToken = inVector.get(0);
 			inVector.remove(0);
-			
+
 			String currentText = currentToken.getTokenText();
-			
+
 			int currentType = currentToken.getTokenType();
-			
+
 			switch(currentType) {
 			case Token.TOKEN_NUMBER:		//Falls through
 			case Token.TOKEN_VARIABLE:		//Falls through
 			case Token.TOKEN_NUMBER_LITERAL: 
 				outVector.add(currentToken);
 				break;
-				
+
 			case Token.TOKEN_FUNCTION:
 				workStack.push(currentToken);
 				break;
-				
+
 			case Token.TOKEN_ARGUMENT_SEPERATOR:
 				while(true) {
 					Token topToken = workStack.pop();
 					int topTokenType = topToken.getTokenType();
 					boolean topTokenIsOpenBracket = topTokenType == Token.TOKEN_OPEN_BRACKET;
-					
+
 					if(topTokenIsOpenBracket) {
 						break;
 					}
-					
+
 					outVector.add(topToken);
-					
+
 					boolean workStackIsEmpty = workStack.isEmpty();
 					if(workStackIsEmpty) {
 						throw new Exception("Argument Seperator Error. Reasons: Missplaced Argument Seperator or unmatched closing bracket");
 					}
 				}
 				break;
-				
+
 			case Token.TOKEN_UNARY_OPERATOR: //Falls through
 			case Token.TOKEN_OPERATOR:
-				
+
 				while(true) {
 					boolean workStackIsEmpty = workStack.isEmpty();
-					
+
 					if(workStackIsEmpty) {
 						break;
 					}
-					
+
 					Token topToken = workStack.peek();
 					String topTokenText = topToken.getTokenText();
 					int topTokenType = topToken.getTokenType();
 					boolean topTokenIsOperator = topTokenType == Token.TOKEN_OPERATOR;
-					
+
 					if(topTokenIsOperator) {
 						Operator currentOperator 	= expressions.getOperator(currentText);
 						int currentPriority 		= currentOperator.getPriority();
 						boolean isLeftToRight 		= currentOperator.isLeftToRight();
-						
+
 						Operator topTokenOperator 	= expressions.getOperator(topTokenText);
 						int topTokenPriority 		= topTokenOperator.getPriority();
-						
+
 						boolean currentPriorityIsBiggerOrEqualTopPriority = currentPriority <= topTokenPriority;
 						boolean currentPriorityIsBiggerTopPriority		  = currentPriority <  topTokenPriority;
-						
+
 						boolean isCaseA = ((currentPriorityIsBiggerOrEqualTopPriority && isLeftToRight)&&!currentPriorityIsBiggerTopPriority);
 						boolean isCaseB = (!(currentPriorityIsBiggerOrEqualTopPriority && isLeftToRight))&&currentPriorityIsBiggerTopPriority;
 						if(isCaseA || isCaseB) {
@@ -206,53 +206,55 @@ public class Parser {
 				}
 				workStack.push(currentToken);
 				break;
-				
+
 			case Token.TOKEN_OPEN_BRACKET:
 				workStack.push(currentToken);
 				break;
-				
+
 			case Token.TOKEN_CLOSE_BRACKET:
 				while(true) {
 					Token topToken = workStack.pop();
 					int topTokenType = topToken.getTokenType();
 					boolean topTokenIsOpenBracket = topTokenType == Token.TOKEN_OPEN_BRACKET;
-					
+
 					if(topTokenIsOpenBracket) {
 						break;
 					}
-					
+
 					outVector.add(topToken);
-					
+
 					boolean workStackIsEmpty = workStack.isEmpty();
 					if(workStackIsEmpty) {
 						throw new Exception("Close Bracket Error. Reason: Unmatched closing bracket");
 					}
-					
+
 				}
-				
-				Token topToken = workStack.peek();
-				int topTokenType = topToken.getTokenType();
-				boolean topIsFunction = topTokenType == Token.TOKEN_FUNCTION;
-				
-				if(topIsFunction) {
-					workStack.pop();
-					outVector.add(topToken);
+
+				boolean workStackIsEmpty = workStack.isEmpty();
+				if(!workStackIsEmpty) {
+					Token topToken = workStack.peek();
+					int topTokenType = topToken.getTokenType();
+					boolean topIsFunction = topTokenType == Token.TOKEN_FUNCTION;
+
+					if(topIsFunction) {
+						workStack.pop();
+						outVector.add(topToken);
+					}
 				}
-				
 				break;
-				
+
 			default:
 				break;
 			}
-			
+
 			inVectorIsEmpty = inVector.isEmpty();
 		}
-		
+
 		boolean workStackIsEmpty = workStack.isEmpty();
 		while(!workStackIsEmpty) {
 			Token currentToken = workStack.pop();
 			int currentTokenType = currentToken.getTokenType();
-			
+
 			boolean isOpenBracket = currentTokenType == Token.TOKEN_OPEN_BRACKET;
 			if(isOpenBracket) {
 				throw new Exception("Open Bracket Error. Reason: Unmatched open bracket");
@@ -260,7 +262,7 @@ public class Parser {
 			outVector.add(currentToken);
 			workStackIsEmpty = workStack.isEmpty();
 		}
-		
+
 		return outVector;
 	}	
 
@@ -278,35 +280,35 @@ public class Parser {
 	private static Vector<Token> prewortDetermineUnaryOperators(Vector<Token> postfixTokens) {
 		Vector<Token> outVector = postfixTokens;
 		Expressions expr = Calculator.expressions;
-		
+
 		int tokenCount = outVector.size();
 		for(int i=0;i<tokenCount;i++) {
 			Token currentToken = outVector.get(i);
 			String currentText = currentToken.getTokenText();
 			int tokenType = currentToken.getTokenType();
-			
+
 			boolean isFirstToken 		 	= i==0;
 			boolean canBeValidUnaryOperator = expr.matchesUnaryOperator(currentText);
-			
+
 			if(canBeValidUnaryOperator) {
 				if(isFirstToken) {
 					currentToken.setTokenType(Token.TOKEN_UNARY_OPERATOR);
 				} else {
 					Token prevToken = outVector.get(i-1);
 					int prevType = prevToken.getTokenType();
-					
+
 					boolean isValidUnaryOperator = prevType==Token.TOKEN_ARGUMENT_SEPERATOR || prevType==Token.TOKEN_OPEN_BRACKET || prevType==Token.TOKEN_OPERATOR ||prevType==Token.TOKEN_UNARY_OPERATOR;
 					if(isValidUnaryOperator) {
 						currentToken.setTokenType(Token.TOKEN_UNARY_OPERATOR);
 					}
-					
+
 				}
 			}
 		}
-		
+
 		return outVector;
 	}
-	
+
 	/**
 	 * Iterates over the Tokens looking for implied multiplications
 	 * 2x -> 2*x; (a-b)(a+b) -> (a-b)*(a+b)
@@ -315,35 +317,35 @@ public class Parser {
 	 * @return Returns a Vector of Tokens in postfix notation.
 	 */
 	private static Vector<Token> preworkConversion(Vector<Token> postfixTokens) {
-		
+
 		Vector<Token> outVector = new Vector<>();
-		
+
 		int tokenCount = postfixTokens.size();
 		for(int i = 0;i < tokenCount;i++) {
-			
+
 			Token firstToken = postfixTokens.get(i);
 			outVector.add(firstToken);
-			
+
 			boolean isLastElement = i == (tokenCount-1);
-			
+
 			if(!isLastElement) {
 				int firstType = firstToken.getTokenType();
-				
+
 				Token secondToken = postfixTokens.get(i+1);
 				int secondType = secondToken.getTokenType();
-				
+
 				boolean firstIsNumber = firstType==Token.TOKEN_NUMBER || firstType==Token.TOKEN_NUMBER_LITERAL || firstType==Token.TOKEN_VARIABLE;
 				boolean secoundIsNumber = secondType==Token.TOKEN_NUMBER || secondType==Token.TOKEN_NUMBER_LITERAL || secondType==Token.TOKEN_VARIABLE;
-				
+
 				boolean firstIsCloseBreacket = firstType == Token.TOKEN_CLOSE_BRACKET;
 				boolean secondIsOpenBreacket = secondType == Token.TOKEN_OPEN_BRACKET;
-				
+
 				if((firstIsNumber && secoundIsNumber)||(firstIsCloseBreacket && secondIsOpenBreacket)) {
 					outVector.add(new Token("*"));
 				}
 			}
 		}
-		
+
 		return outVector;
 	}
 
@@ -358,77 +360,77 @@ public class Parser {
 	public static double calculatePostfixTokens(Vector<Token> postfixTokens) throws Exception{
 		Stack<Double> workStack = new Stack<>();
 		Expressions expr = Calculator.expressions;
-		
-		
+
+
 		for(Token currentToken: postfixTokens) {
 			int currentType = currentToken.getTokenType();
 			String currentText = currentToken.getTokenText();
-			
+
 			switch(currentType) {
 			case Token.TOKEN_NUMBER:
 				Double value = new Double(currentText);
 				workStack.push(value);
 				break;
-				
+
 			case Token.TOKEN_NUMBER_LITERAL: 
 				expressions.Number number = expr.getNumber(currentText);
 				Double literalValue = new Double(number.getValue());
 				workStack.push(literalValue);
 				break;
-				
+
 			case Token.TOKEN_FUNCTION:
 				Function function = expr.getFunction(currentText);
 				int parameterCount = function.getParameters();
 				Vector<Double>parameterList = new Vector<>();
 				int providedValues = workStack.size();
-				
+
 				boolean hasEnoughValues = parameterCount <= providedValues;
-				
+
 				if(hasEnoughValues) {
 					for(int i=0; i<parameterCount;i++) {
 						Double providedValue = workStack.pop();
 						parameterList.add(providedValue);
 					}
-					
+
 					Double result = new Double(function.useFunction(parameterList));
 					workStack.push(result);
 				} else {
 					throw new Exception("Syntax Error. Function '"+currentText+"' requires "+parameterCount+" parameters. Only "+providedValues+" are provided.");
 				}
 				break;
-				
-				
+
+
 			case Token.TOKEN_UNARY_OPERATOR: 
 			case Token.TOKEN_OPERATOR:
 				boolean isUnary	   = currentType==Token.TOKEN_UNARY_OPERATOR;
-				
+
 				Operator operator;
-				
+
 				if(isUnary) {
 					operator = expr.getUnaryOperator(currentText);
 				} else {
 					operator = expr.getOperator(currentText);	
 				}
-				
+
 				int operatorParameterCount = operator.getParameters();
 				Vector<Double>operatorParameterList = new Vector<>();
 				int operatorProvidedValues = workStack.size();
-				
+
 				boolean operatorHasEnoughValues = operatorParameterCount <= operatorProvidedValues;
-				
+
 				if(operatorHasEnoughValues) {
 					for(int i=0; i<operatorParameterCount;i++) {
 						Double providedValue = workStack.pop();
 						operatorParameterList.add(providedValue);
 					}					
-					
+
 					Double result = new Double(operator.useOperator(operatorParameterList));
 					workStack.push(result);
 				} else {
 					throw new Exception("Syntax Error. Function '"+currentText+"' requires "+operatorParameterCount+" parameters. Only "+operatorProvidedValues+" are provided.");
 				}
 				break;
-				
+
 			case Token.TOKEN_OPEN_BRACKET:		//Falls through
 			case Token.TOKEN_CLOSE_BRACKET:		//Falls through
 			case Token.TOKEN_VARIABLE:			//Falls through
@@ -437,7 +439,7 @@ public class Parser {
 				throw new Exception("Parsing Error. Calculator can't handle Token '"+currentText+"'. Please convert to Postfix tokens.");
 			}
 		}
-		
+
 		double result = workStack.peek().doubleValue();
 		return result;
 	}
