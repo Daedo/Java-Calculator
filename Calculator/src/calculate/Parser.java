@@ -32,6 +32,8 @@ public class Parser {
 		boolean isInDigit = false;
 
 		String workingText = text;
+		workingText = workingText.replaceAll(" ", "");
+		
 		int workingTextLength = workingText.length();
 		while (workingTextLength > 0) {
 			boolean hasFoundExpression = false;
@@ -395,7 +397,10 @@ public class Parser {
 					Double result = new Double(function.useFunction(parameterList));
 					workStack.push(result);
 				} else {
-					throw new Exception("Syntax Error. Function '"+currentText+"' requires "+parameterCount+" parameters. Only "+providedValues+" are provided.");
+					if(providedValues!=1) {
+						throw new Exception("Syntax Error. Function '"+currentText+"' requires "+parameterCount+" parameters. Only "+providedValues+" are provided.");
+					}
+					throw new Exception("Syntax Error. Function '"+currentText+"' requires "+parameterCount+" parameters. Only "+providedValues+" is provided.");
 				}
 				break;
 
@@ -427,7 +432,10 @@ public class Parser {
 					Double result = new Double(operator.useOperator(operatorParameterList));
 					workStack.push(result);
 				} else {
-					throw new Exception("Syntax Error. Function '"+currentText+"' requires "+operatorParameterCount+" parameters. Only "+operatorProvidedValues+" are provided.");
+					if(operatorProvidedValues!=1) {
+						throw new Exception("Syntax Error. Function '"+currentText+"' requires "+operatorParameterCount+" parameters. Only "+operatorProvidedValues+" are provided.");
+					}
+					throw new Exception("Syntax Error. Function '"+currentText+"' requires "+operatorParameterCount+" parameters. Only "+operatorProvidedValues+" is provided.");
 				}
 				break;
 
@@ -436,7 +444,8 @@ public class Parser {
 			case Token.TOKEN_VARIABLE:			//Falls through
 			case Token.TOKEN_ARGUMENT_SEPERATOR://Falls through
 			default:
-				throw new Exception("Parsing Error. Calculator can't handle Token '"+currentText+"'. Please convert to Postfix tokens.");
+				throw new Exception("Parsing Error. Calculator can't handle Token '"+currentText+"'.");
+				// Error probably caused, if you have an unknown token or if you forgot to convert to postfix.
 			}
 		}
 
