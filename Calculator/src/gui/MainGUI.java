@@ -50,6 +50,7 @@ public class MainGUI extends JFrame {
 	private JLabel lblResult;
 	private JTable table;
 	private JScrollPane scrollPane;
+	private JLabel lblByDominikdaedo;
 
 	/**
 	 * Launch the application.
@@ -76,7 +77,7 @@ public class MainGUI extends JFrame {
 		this.contentPane = new JPanel();
 		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(this.contentPane);
-		this.contentPane.setLayout(new MigLayout("", "[424px,grow][]", "[20%:22.52%:20%][][][][grow]"));
+		this.contentPane.setLayout(new MigLayout("", "[424px,grow][]", "[20%:22.52%:20%][][][][grow][]"));
 		
 		this.textField = new JTextField();
 		this.contentPane.add(this.textField, "cell 0 0,growx,aligny center");
@@ -195,6 +196,9 @@ public class MainGUI extends JFrame {
 		
 		this.lblDecimalPlaces = new JLabel("Decimal Places");
 		this.contentPane.add(this.lblDecimalPlaces, "cell 1 4");
+		
+		lblByDominikdaedo = new JLabel("By Dominik \"Daedo\" Spies");
+		contentPane.add(lblByDominikdaedo, "cell 1 5");
 	}
 
 }

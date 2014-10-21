@@ -25,7 +25,7 @@ public class Calculator {
 	public static String calculate(String expression,boolean useDegree,int decimalPlaces){
 
 		useDegrees = useDegree;
-		
+
 		try {
 			//Parse
 			Vector<Token> tokens = Parser.tokenize(expression);
@@ -40,10 +40,10 @@ public class Calculator {
 			result = bigDecimal.doubleValue();
 
 			//System.out.println("Result: "+result);
-			
+
 			return result+"";
 		} catch( Exception e) {
-			
+
 			String errorMessage = e.getMessage();
 			if(errorMessage!=null) {
 				return errorMessage;
@@ -52,7 +52,7 @@ public class Calculator {
 		}
 	}
 
-		/*
+	/*
 		versed sine, or versine					versin    = 1-cos
 		versed cosine, or vercosine					vercosin=1+cos
 		coversed sine, or coversine					coversin=1-sin
@@ -64,7 +64,7 @@ public class Calculator {
 		exsecant
 		excosecant
 		chord
-		 */
+	 */
 
 
 	public static boolean getUseDegrees() {
